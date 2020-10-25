@@ -19,7 +19,13 @@ body {
 	justify-content: space-around;
 	width: 400px;
 	margin-bottom: 50px;
+	visibility: hidden;
 }
+
+.show {
+	visibility: visible;
+}
+
 .holes {
 	display: flex;
 	flex-wrap: wrap;
@@ -48,8 +54,10 @@ body {
 	position: absolute;
 	/* top: 120px; */
 }
-
-.mole.up {
+.color {
+	background: #fff;
+}
+.up {
 	top: 0;
 }
 
