@@ -1,10 +1,11 @@
 let on = false
-document.querySelector('.start')
+const start = document.querySelector('.start')
 
 
 const holes = document.querySelectorAll('.hole')
 
 // holes.addEventListener('click', popUp)
+start.addEventListener('click', startGame)
 
 // function popUp = (holes) {
   holes.forEach(hole => {
