@@ -37,13 +37,22 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: flex-end;
+	position: relative;
+	/* overflow: hidden; */
 }
 
 .mole {
 	width: 20px;
 	height: 120px;
 	background: rgb(255, 0, 0);
+	position: absolute;
+	/* top: 120px; */
 }
+
+.mole.up {
+	top: 0;
+}
+
 footer {
 	margin-top: 30px;
 }
