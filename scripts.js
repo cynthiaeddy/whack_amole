@@ -13,7 +13,7 @@ let lastMole
 let timeOutId
 
 
-
+// console.log(moles)
 // console.log(timer, lives, molesRemaining, score, controlPanel)
 
 startButton.addEventListener('click', startGame)
@@ -39,24 +39,14 @@ function startGame() {
 }
 
 function hitMole(e) {
-  const moleHit = e.target.dataset.id
-
-  console.log('mole clicked')
-  if(e.target.dataset.id.clicked == true){
-
+  e.stopPropagation()
     console.log('inside')
-    //not above, if classlist is true, do this
     score.innerHTML = parseInt(score.innerHTML) + 1;
     molesRemaining.innerHTML = parseInt(molesRemaining.innerHTML) -1;
-  } else {
-    //if classlist doesn't exist, do this
-    lives.innerHTML = parseInt(lives.innerHTML) - 1;
-  }
-
 }
-function hitHole() {
-  console.log('hole clicked')
 
+function hitHole() {
+  lives.innerHTML = parseInt(lives.innerHTML) - 1;
 }
 
 
@@ -76,7 +66,7 @@ function popUp() {
 }
 
 function randomMole(moles){
-  const moleIdx = Math.floor(Math.random() * 10);
+  const moleIdx = Math.floor(Math.random() * 9) + 1;
   const mole = moles[moleIdx];
     if (mole === lastMole){
         return randomMole(moles);
