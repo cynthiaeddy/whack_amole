@@ -10,9 +10,10 @@ const moles = document.querySelectorAll('.mole')
 let on = false
 let timeUp = false
 let lastMole
-let moleNumber
 let mole
-
+let moleCaptureArray = []
+let molesDone
+let livesDone
 
 // console.log(moles)
 // console.log(timer, lives, molesRemaining, score, controlPanel)
@@ -37,21 +38,21 @@ function startGame() {
 function hitMole(e) {
   e.stopPropagation()
   console.log('inside')
-  console.log('mole', mole)
-    score.innerHTML = parseInt(score.innerHTML) + 1;
+  score.innerHTML = parseInt(score.innerHTML) + 1;
   molesRemaining.innerHTML = parseInt(molesRemaining.innerHTML) - 1;
+  molesDone = parseInt(molesRemaining.innerHTML)
   mole.classList.add('hit')
-  // moleNumber = e.target.dataset.id -1
-  // console.log(moleNumber)
-  // return moleNumber
+  if (molesDone === 0) {
+    endGame()
+  }
 }
-
-
-
-
 
 function hitHole() {
   lives.innerHTML = parseInt(lives.innerHTML) - 1;
+  livesDone = parseInt(lives.innerHTML)
+  if (livesDone === 0) {
+    endGame()
+  }
 }
 
 function popUp() {
@@ -66,23 +67,22 @@ function popUp() {
     }, time);
 }
 
-//if moles been clicked, remove it's number
-//splice
 
-function randomMole(moles) {
-  console.log(moles)
-
+function randomMole(moles, e) {
+  // console.log(moles)
   const moleIdx = Math.floor(Math.random() * moles.length) + 1
 
-
-  // array.splice(Math.floor(Math.random()*array.length), 1);
-
-
-
   mole = moles[moleIdx - 1];
-  if (mole.classList.contains('hit')) {
-    return randomMole(moles);
-  }
+  // if (mole.classList.contains('hit')) {
+  //   // mole.remove(moles)
+  //   // console.log(e.target)
+  //   // moleCaptureArray = moles
+  //   // moleCaptureArray.splice()
+
+  //   // console.log(mole)
+  //   return randomMole(moles);
+  // }
+  // else
     if (mole === lastMole){
         return randomMole(moles);
     }
@@ -93,3 +93,9 @@ function randomMole(moles) {
 function randomTime(max, min) {
   return Math.random() * (max - min) + min;
 }
+
+function endGame() {
+  console.log('end game')
+  on = false
+}
+
