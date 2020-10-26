@@ -4,6 +4,7 @@
 body {
 	margin: 0;
 	padding: 0;
+	font-family: 'Raleway', sans-serif;
 }
 .container {
 	width: 100vw;
@@ -24,6 +25,9 @@ body {
 
 .show {
 	visibility: visible;
+}
+h1 {
+	font-family: 'Raleway Dots', cursive;
 }
 
 .holes {
