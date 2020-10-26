@@ -8,7 +8,7 @@ const holes = document.querySelectorAll('.hole')
 const moles = document.querySelectorAll('.mole')
 
 let on = false
-let timeUp
+let timeUp = false
 let lastMole
 let timeOutId
 
@@ -27,13 +27,12 @@ holes.forEach(hole => {
 })
 
 
-
-
-
 function startGame() {
-  on = true
-  controlPanel.classList.add('show')
-  popUp()
+    on = true
+    controlPanel.classList.add('show')
+    popUp()
+    setTimeout(() => timeUp = true, 20000)
+  // }
 
 
 }
@@ -42,7 +41,8 @@ function hitMole(e) {
   e.stopPropagation()
     console.log('inside')
     score.innerHTML = parseInt(score.innerHTML) + 1;
-    molesRemaining.innerHTML = parseInt(molesRemaining.innerHTML) -1;
+  molesRemaining.innerHTML = parseInt(molesRemaining.innerHTML) - 1;
+  mole.classList.add('hit')
 }
 
 function hitHole() {
@@ -51,23 +51,22 @@ function hitHole() {
 
 
 function popUp() {
-  const molePick = randomMole(moles)
-  const moleTime = randomTime(1500, 500)
-  molePick.classList.add('up');
-  // timeOutId = setTimeout(() => {
-  //     molePick.classList.remove('up');
-  // setTimeout(() => {
-  //   molePick.classList.remove('up');
-  //     if(!timeUp) {
-  //       popUp();
-  //     }
-  //   }, moleTime);
-  // clearTimeout(timeOutId)
+  const time = randomTime(2000, 500)
+  mole = randomMole(moles)
+  mole.classList.add('up');
+    setTimeout(() => {
+      mole.classList.remove('up');
+      if(!timeUp) {
+        popUp();
+      }
+    }, time);
 }
 
+
 function randomMole(moles){
-  const moleIdx = Math.floor(Math.random() * 9) + 1;
-  const mole = moles[moleIdx];
+  const moleIdx = Math.floor(Math.random() * moles.length) +1
+  console.log(moleIdx)
+  const mole = moles[moleIdx -1];
     if (mole === lastMole){
         return randomMole(moles);
     }
@@ -76,7 +75,5 @@ function randomMole(moles){
 }
 
 function randomTime(max, min) {
-  const time = Math.random * (max - min) + min
-  return time
+  return Math.random() * (max - min) + min;
 }
-
