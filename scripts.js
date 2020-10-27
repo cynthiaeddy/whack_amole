@@ -37,21 +37,36 @@ function startGame() {
 
 function hitMole(e) {
   e.stopPropagation()
-  console.log('inside')
   score.innerHTML = parseInt(score.innerHTML) + 1;
   molesRemaining.innerHTML = parseInt(molesRemaining.innerHTML) - 1;
   molesDone = parseInt(molesRemaining.innerHTML)
   mole.classList.add('hit')
   if (molesDone === 0) {
     endGame()
+    //stop molesDone from counting
   }
 }
+
+// var clicks = 0;
+
+// function onClick()
+// {
+//     if (clicks >= 5)
+//         return;
+
+//     clicks += 1;
+//     document.getElementById("clicks").innerHTML = clicks;
+// };
+
+
+
 
 function hitHole() {
   lives.innerHTML = parseInt(lives.innerHTML) - 1;
   livesDone = parseInt(lives.innerHTML)
   if (livesDone === 0) {
     endGame()
+    //stop livesDone from counting
   }
 }
 
@@ -73,19 +88,9 @@ function randomMole(moles, e) {
   const moleIdx = Math.floor(Math.random() * moles.length) + 1
 
   mole = moles[moleIdx - 1];
-  // if (mole.classList.contains('hit')) {
-  //   // mole.remove(moles)
-  //   // console.log(e.target)
-  //   // moleCaptureArray = moles
-  //   // moleCaptureArray.splice()
-
-  //   // console.log(mole)
-  //   return randomMole(moles);
-  // }
-  // else
-    if (mole === lastMole){
-        return randomMole(moles);
-    }
+  if (mole.classList.contains('hit') || mole === lastMole) {
+    return randomMole(moles);
+  }
     lastMole = mole;
     return mole;
 }
@@ -95,7 +100,16 @@ function randomTime(max, min) {
 }
 
 function endGame() {
-  console.log('end game')
+  console.log('end game', 'molesDone', molesDone, 'livesDone', livesDone)
+  timeUp = true
+  if (livesDone === 0) {
+    console.log('you lost')
+  } else
+    if (molesDone === 0) {
+      console.log('you won')
+    }
+
+  //stop timer
   on = false
 }
 
