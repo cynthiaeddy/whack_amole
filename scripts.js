@@ -13,9 +13,10 @@ let lastMole
 let mole
 let moleCaptureArray = []
 let molesDone
-let livesDone
+let livesDone = 5
+let intervalId
+let holeNum = 0
 
-// console.log(moles)
 // console.log(timer, lives, molesRemaining, score, controlPanel)
 
 startButton.addEventListener('click', startGame)
@@ -37,38 +38,38 @@ function startGame() {
 
 function hitMole(e) {
   e.stopPropagation()
+  console.log(e.target, typeof e.target.dataset.id)
+  holeNum = parseInt(e.target.dataset.id) -1
+  console.log(holeNum)
+
+
+  hole = holes[holeNum]
+    hole.classList.add('white')
+
+  console.log('holes', holes)
   score.innerHTML = parseInt(score.innerHTML) + 1;
   molesRemaining.innerHTML = parseInt(molesRemaining.innerHTML) - 1;
   molesDone = parseInt(molesRemaining.innerHTML)
-  mole.classList.add('hit')
+    mole.classList.add('hit')
+
   if (molesDone === 0) {
     endGame()
     //stop molesDone from counting
   }
 }
 
-// var clicks = 0;
-
-// function onClick()
-// {
-//     if (clicks >= 5)
-//         return;
-
-//     clicks += 1;
-//     document.getElementById("clicks").innerHTML = clicks;
-// };
-
-
-
 
 function hitHole() {
-  lives.innerHTML = parseInt(lives.innerHTML) - 1;
-  livesDone = parseInt(lives.innerHTML)
+  if (livesDone > 0) {
+    livesDone -= 1
+    lives.innerHTML = parseInt(lives.innerHTML) - 1;
+  }
   if (livesDone === 0) {
     endGame()
     //stop livesDone from counting
   }
 }
+
 
 function popUp() {
   const time = randomTime(2000, 500)
@@ -83,7 +84,7 @@ function popUp() {
 }
 
 
-function randomMole(moles, e) {
+function randomMole(moles) {
   // console.log(moles)
   const moleIdx = Math.floor(Math.random() * moles.length) + 1
 

@@ -65,14 +65,14 @@ h1 {
 .hit {
 	height: 40px;
 	width: 40px;
-	background: rgb(255, 0, 0);
+	background: none;
 	border-radius: 50%;
 	position: absolute;
 	top: 35%;
 	z-index: 5;
 }
 
-.color {
+.white {
 	background: #fff;
 }
 .up {
