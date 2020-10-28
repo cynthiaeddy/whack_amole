@@ -6,21 +6,19 @@ const molesRemaining = controlPanel.querySelector('.moles-remaining')
 let score = controlPanel.querySelector('.score')
 const holes = document.querySelectorAll('.hole')
 const moles = document.querySelectorAll('.mole')
+const h1 = document.querySelector('h1')
 
 let on = false
 let timeUp = false
 let lastMole
 let mole
-let moleCaptureArray = []
 let molesDone
 let livesDone = 5
-let intervalId
 let holeNum = 0
-let timeoutHandle;
+let timeoutId
 
 
-
-// console.log(timer, lives, molesRemaining, score, controlPanel)
+/////////////////////////// event listeners /////////////////////////////////////
 
 startButton.addEventListener('click', startGame)
 
@@ -32,12 +30,14 @@ holes.forEach(hole => {
   hole.addEventListener('click', hitHole)
 })
 
+/////////////////////////// game /////////////////////////////////////
+
 function startGame() {
     on = true
   controlPanel.classList.add('show')
-  countdown(2, 00);
+  countdown(1, 00);
     popUp()
-  setTimeout(() => timeUp = true, 20000)
+  setTimeout(() => timeUp = true, 60000)
 }
 
 function countdown(minutes, seconds) {
@@ -46,10 +46,10 @@ function countdown(minutes, seconds) {
             minutes.toString() + ":" + (seconds < 10 ? "0" : "") + String(seconds);
         seconds--;
         if (seconds >= 0) {
-            timeoutHandle = setTimeout(tick, 1000);
+            timeoutId = setTimeout(tick, 1000);
         } else {
             if (minutes >= 1) {
-                // countdown(mins-1);   never reach “00″ issue solved:Contributed by Victor Streithorst
+                // countdown(mins-1);
                 setTimeout(function () {
                     countdown(minutes - 1, 59);
                 }, 1000);
@@ -64,7 +64,12 @@ function hitMole(e) {
   e.stopPropagation()
   holeNum = parseInt(e.target.dataset.id) -1
   hole = holes[holeNum]
-  hole.classList.add('white')
+    hole.classList.add('white')
+
+  setTimeout(function() {
+    hole.classList.remove('white')
+  }, (1*1000)); //40 seconds
+  // hole.classList.add('white')
   score.innerHTML = parseInt(score.innerHTML) + 1;
   molesRemaining.innerHTML = parseInt(molesRemaining.innerHTML) - 1;
   molesDone = parseInt(molesRemaining.innerHTML)
@@ -121,12 +126,14 @@ function randomTime(max, min) {
 function endGame() {
   timeUp = true
   if (livesDone === 0) {
+    h1.innerHTML = 'YOU LOST'
     console.log('you lost')
   } else
-  if (molesDone === 0) {
+    if (molesDone === 0) {
+      h1.innerHTML = 'YOU WON!'
     console.log('you won')
   }
-  clearTimeout(timeoutHandle);
+  clearTimeout(timeoutId);
   on = false
 }
 
