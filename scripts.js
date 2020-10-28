@@ -1,6 +1,6 @@
 const startButton = document.querySelector('.start')
 const controlPanel = document.querySelector('.controls')
-const timer = controlPanel.querySelector('.timer')
+const timed = controlPanel.querySelector('.timer')
 const lives = controlPanel.querySelector('.lives')
 const molesRemaining = controlPanel.querySelector('.moles-remaining')
 let score = controlPanel.querySelector('.score')
@@ -16,6 +16,9 @@ let molesDone
 let livesDone = 5
 let intervalId
 let holeNum = 0
+let timeoutHandle;
+
+
 
 // console.log(timer, lives, molesRemaining, score, controlPanel)
 
@@ -31,22 +34,37 @@ holes.forEach(hole => {
 
 function startGame() {
     on = true
-    controlPanel.classList.add('show')
+  controlPanel.classList.add('show')
+  countdown(2, 00);
     popUp()
-    setTimeout(() => timeUp = true, 20000)
+  setTimeout(() => timeUp = true, 20000)
 }
+
+function countdown(minutes, seconds) {
+    function tick() {
+        timed.innerHTML =
+            minutes.toString() + ":" + (seconds < 10 ? "0" : "") + String(seconds);
+        seconds--;
+        if (seconds >= 0) {
+            timeoutHandle = setTimeout(tick, 1000);
+        } else {
+            if (minutes >= 1) {
+                // countdown(mins-1);   never reach “00″ issue solved:Contributed by Victor Streithorst
+                setTimeout(function () {
+                    countdown(minutes - 1, 59);
+                }, 1000);
+            }
+        }
+    }
+    tick();
+}
+
 
 function hitMole(e) {
   e.stopPropagation()
-  console.log(e.target, typeof e.target.dataset.id)
   holeNum = parseInt(e.target.dataset.id) -1
-  console.log(holeNum)
-
-
   hole = holes[holeNum]
-    hole.classList.add('white')
-
-  console.log('holes', holes)
+  hole.classList.add('white')
   score.innerHTML = parseInt(score.innerHTML) + 1;
   molesRemaining.innerHTML = parseInt(molesRemaining.innerHTML) - 1;
   molesDone = parseInt(molesRemaining.innerHTML)
@@ -101,16 +119,14 @@ function randomTime(max, min) {
 }
 
 function endGame() {
-  console.log('end game', 'molesDone', molesDone, 'livesDone', livesDone)
   timeUp = true
   if (livesDone === 0) {
     console.log('you lost')
   } else
-    if (molesDone === 0) {
-      console.log('you won')
-    }
-
-  //stop timer
+  if (molesDone === 0) {
+    console.log('you won')
+  }
+  clearTimeout(timeoutHandle);
   on = false
 }
 
